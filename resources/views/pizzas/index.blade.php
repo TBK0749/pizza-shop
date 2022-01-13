@@ -46,10 +46,9 @@ if ( window.history.replaceState ) {
                         </tr>
                     </thead>
                     <tbody>
-                        @php($i=1)
                         @foreach ($pizzas as $pizza)
                             <tr>
-                                <th scope="row">{{ $i++ }}</th>
+                                <th scope="row">{{ $loop->index + 1 }}</th>
                                 <td><a href="{{ route('pizzas.show', $pizza->id)}}">{{ $pizza->name }}</a></td>
                                 <td>{{ $pizza->created_at }}</td>
                                 <td>{{ $pizza->updated_at }}</td>

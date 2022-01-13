@@ -46,5 +46,6 @@ Route::resource('/pizzas', PizzaController::class); // MAGIC
 // Ingredient endpiont
 Route::resource('/ingredients', IngredientController::class);
 
-Route::get('/search', [SearchController::class, 'search']);
+Route::get('/search', [PizzaController::class, 'search']);
 Route::get('/search', [IngredientController::class, 'search']);
+// Route::get('/search', [SearchController::class, 'index']);

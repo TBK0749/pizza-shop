@@ -41,6 +41,7 @@ class IngredientController extends Controller
      */
     public function store(Request $request)
     {
+        // TODO: Move to Request class
         $data = $request->validate(
             [
                 'name' => 'required|unique:ingredients|max:225',
@@ -68,7 +69,6 @@ class IngredientController extends Controller
     public function show(Ingredient $ingredient)
     {
         return view('ingredients.show', [
-            'ingredients' => ingredient::find($ingredient->id),
             'ingredient' => $ingredient,
         ]);
     }
@@ -109,7 +109,7 @@ class IngredientController extends Controller
             ]
         );
 
-        $ingredient = ingredient::find($id);
+        $ingredient = Ingredient::find($id);
         $ingredient->update($data);
 
         return redirect()->back()->with('success', "Successfully edited a ingredient.");
@@ -130,6 +130,7 @@ class IngredientController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
+        // TODO: Use Eloquent
         $ingredients = DB::table('ingredients')
             ->where('name', 'like', '%' . $search . '%')
             ->paginate(5);

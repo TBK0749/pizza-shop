@@ -24,4 +24,16 @@ class Pizza extends Model
     {
         return $this->belongsToMany(Ingredient::class);
     }
+
+    public function deleteImage()
+    {
+        // Delete the old image
+        $imagePath = str_replace("/", "\\", $this->pizza_image);
+        $oldImageFullPath = public_path($imagePath);
+
+        // /user/pond/code/laravel/pizza-shop/public/images/pizzas/asdqwdqwd.png
+        if (file_exists($oldImageFullPath)) {
+            unlink($oldImageFullPath);
+        }
+    }
 }

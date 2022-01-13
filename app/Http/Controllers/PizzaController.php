@@ -19,6 +19,8 @@ class PizzaController extends Controller
      */
     public function index() // /pizzas
     {
+        session(['my_name' => 'Hellooooo']);
+
         //web endpiont
         return view('pizzas.index', [
             'pizzas' => Pizza::all(),
@@ -46,6 +48,9 @@ class PizzaController extends Controller
      */
     public function store(Request $request)
     {
+        // TODO: เปลี่ยนเป็น Request Class
+        // https://laravel.com/docs/8.x/validation#form-request-validation
+        // php artisan make:request StorePizzaRequest
         $data = $request->validate(
             [
                 'name' => 'required|unique:pizzas|max:255',
@@ -62,10 +67,13 @@ class PizzaController extends Controller
         );
 
         //การเข้ารหัสรูปภาพ
+        // TODO: พยายามใช้ case เดียวกันสำหรับตัวแปร
+        /** UploadedFile */
         $pizza_image = $request->file('pizza_image');
 
         //Generate ชื่อภาพ
         $name_gen = hexdec(uniqid());
+        // $name_gen = Str::random(10);
 
         //ดึงนาสสกุลไฟล์ภาพ
         $img_ext = strtolower($pizza_image->getClientOriginalExtension());
@@ -78,14 +86,20 @@ class PizzaController extends Controller
         $full_path = $upload_location . $img_name;
         $pizza_image->move($upload_location, $img_name);
 
-        $ingredientsId = array_keys($data['ingredients']);
+        $ingredientIds = array_keys($data['ingredients']);
 
         $pizza = new Pizza;
         $pizza->name = $data['name'];
+        // TODO: ชื่อ column ไม่ต้องใส่ชื่อ model ซ้ำ
         $pizza->pizza_image = $full_path;
         $pizza->save();
 
-        $pizza->ingredients()->sync($ingredientsId);
+        // $pizza = Pizza::create([
+        //     'name' => $data['name'],
+        //     'pizza_image' => $full_path,
+        // ]);
+
+        $pizza->ingredients()->sync($ingredientIds);
 
         return redirect()->back()->with('success', "Successfully created a pizza.");
     }
@@ -113,7 +127,6 @@ class PizzaController extends Controller
         // var_dump($pizza->ingredients);
 
         return view('pizzas.show', [
-            'pizzas' => Pizza::find($pizza->id),
             'pizza' => $pizza,
         ]);
     }
@@ -140,8 +153,9 @@ class PizzaController extends Controller
      * @param  \App\Models\Pizza  $pizza
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pizza $pizza)
     {
+        // TODO: Move to Request Class
         $data = $request->validate(
             [
                 'name' => 'required|unique:pizzas|max:255',
@@ -163,11 +177,12 @@ class PizzaController extends Controller
         $img_name = $name_gen . '.' . $img_ext;
         $upload_location = 'image/pizzas/';
         $full_path = $upload_location . $img_name;
+
+        $pizza->deleteImage();
         $pizza_image->move($upload_location, $img_name);
 
         $ingredientId = array_keys($data['ingredients']);
 
-        $pizza = Pizza::find($id);
         $data['pizza_image'] = $full_path;
         $pizza->update($data);
         $pizza->ingredients()->sync($ingredientId);
@@ -183,16 +198,17 @@ class PizzaController extends Controller
      */
     public function destroy(Pizza $pizza)
     {
+        $pizza->deleteImage();
         $pizza->delete();
+
         return redirect()->route('pizzas.index')->with('success', 'Successfully deleted a pizza.');
     }
 
     public function search(Request $request)
     {
-        $search = $request->get('search');
-        $pizzas = DB::table('pizzas')
-            ->where('name', 'like', '%' . $search . '%')
+        $pizzas = Pizza::where('name', 'like', '%' . $request->get('search') . '%')
             ->paginate(5);
+
         return view('pizzas.index', ['pizzas' => $pizzas]);
     }
 }

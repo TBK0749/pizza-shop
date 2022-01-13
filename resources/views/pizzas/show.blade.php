@@ -37,13 +37,13 @@ if ( window.history.replaceState ) {
                         <li><b>Update at:</b> {{ $pizza->updated_at }}</li>
 
                         <li><b>Ingredients:</b>
-                        @forelse ($pizza->ingredients as $ingredient)
-                            {{ $ingredient->name }},
-                        @empty
+                        @empty($pizza->ingredients)
                             <p>
                                 Pizza don't have ingredients!!
                             </p>
-                        @endforelse
+                        @else
+                            {{  $pizza->ingredients->pluck('name')->implode(', ') }}
+                        @endempty
                         </li>
                     </ul>
                 </div>
