@@ -16,7 +16,8 @@ class Pizza extends Model
     // protected $table = 'order_p';
     protected $fillable = [
         'name',
-        'pizza_image',
+        'price',
+        'image',
     ];
 
     // Relationship
@@ -28,7 +29,7 @@ class Pizza extends Model
     public function deleteImage()
     {
         // Delete the old image
-        $imagePath = str_replace("/", "\\", $this->pizza_image);
+        $imagePath = str_replace("/", "\\", $this->image);
         $oldImageFullPath = public_path($imagePath);
 
         // /user/pond/code/laravel/pizza-shop/public/images/pizzas/asdqwdqwd.png

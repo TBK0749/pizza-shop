@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PizzaController;
 use App\Http\Controllers\IngredientController;
-
-//test
-use App\http\Controllers\PizzasController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,6 @@ use App\http\Controllers\PizzasController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('pizzas/test', [PizzasController::class, 'test']);
 
 // 1. User open website
 // 2. Request comes to route
@@ -40,12 +35,41 @@ Route::get('pizzas/test', [PizzasController::class, 'test']);
 // Route::put('/pizzas/{id}', [PizzasController::class, 'update'])->name('pizzas.update');
 // Route::delete('/pizzas/{id}', [PizzasController::class, 'destroy'])->name('pizzas.destroy');
 
-Route::resource('/pizzas', PizzaController::class); // MAGIC
+Route::resource('/admin/pizzas', PizzaController::class); // MAGIC
 // php artisan route:list
 
 // Ingredient endpiont
-Route::resource('/ingredients', IngredientController::class);
+Route::resource('/admin/ingredients', IngredientController::class);
 
-Route::get('/search', [PizzaController::class, 'search']);
-Route::get('/search', [IngredientController::class, 'search']);
+// Route::get('/search', [PizzaController::class, 'search']);
+// Route::get('/search', [IngredientController::class, 'search']);
 // Route::get('/search', [SearchController::class, 'index']);
+
+Route::group(['namespace' => 'App\Http\Controllers'], function () {
+    /**
+     * Home Routes
+     */
+    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/admin', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
+
+    Route::group(['middleware' => ['guest']], function () {
+        /**
+         * Register Routes
+         */
+        Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
+        Route::post('/register', [RegisterController::class, 'register'])->name('register.perform');
+
+        /**
+         * Login Routes
+         */
+        Route::get('/login', [LoginController::class, 'show'])->name('login.show');
+        Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    });
+
+    Route::group(['middleware' => ['auth']], function () {
+        /**
+         * Logout Routes
+         */
+        Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
+    });
+});

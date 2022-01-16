@@ -37,15 +37,14 @@ if ( window.history.replaceState ) {
                     </tr>
                 </thead>
                 <tbody>
-                    @php($i=1)
                     @foreach ($pizzas as $pizza)
                         <tr>
-                            <th scope="row">{{ $i++ }}</th>
+                            <th scope="row">{{ $loop->index + 1 }}</th>
                             <td><a href="{{ route('pizzas.show', $pizza->id)}}">{{ $pizza->name }}</a></td>
                             <td>{{ $pizza->created_at }}</td>
                             <td>{{ $pizza->updated_at }}</td>
                             <td>
-                                <form method="POST" action="/pizzas/{{$pizza->id}}">
+                                <form method="POST" action="/admin/pizzas/{{$pizza->id}}">
                                     @csrf
                                     @method('DELETE')
                                     <a class="btn btn-primary btn-sm" href="{{ route('pizzas.show', $pizza->id) }}">View</a>
@@ -77,28 +76,31 @@ if ( window.history.replaceState ) {
                             </div>
                         @enderror
                             <div class="form-group mb-2">
-                                <label for="pizza_image"><b>Pizza image</b></label>
-                                <input type="file" name="pizza_image" class="form-control" >
+                                <label for="image"><b>Pizza image</b></label>
+                                <input type="file" name="image" class="form-control" >
                             </div>
-                        @error('pizza_image')
+                        @error('image')
                             <div >
                                 <font color="red">{{$message}}</font>
                             </div>
                         @enderror
-                            <table>
-                                <b>Ingredients for pizza</b>
-                                @foreach($ingredients as $ingredient)
-                                    <tr>
-                                        <td><input {{ $ingredient->value ? 'checked' : null }} data-id="{{ $ingredient->id }}" name="ingredients[{{ $ingredient->id }}]" type="checkbox" class="ingredient-enable"></td>
-                                        <td>{{ $ingredient->name }}</td>
-                                    </tr>
-                                @endforeach
-                            </table>
+                        <div>
+                            <b>Ingredients for pizza</b>
+                        </div>
+                        <select id="ingredient-select" name="ingredients[]" multiple="multiple" class="form-control">
+                            @foreach($ingredients as $ingredient)
+                                <option value="{{ $ingredient->id }}"> {{ $ingredient->name  }}</option>
+                            @endforeach
+                        </select>
                         @error('ingredients')
                             <div >
                                 <font color="red">{{$message}}</font>
                             </div>
                         @enderror
+                            <div class="form-group mb-2">
+                                <label for="price"><b>Price</b></label>
+                                <input type="number" name="price" class="form-control" >
+                            </div>
                         <hr>
                             <div class="d-flex justify-content-between">
                                 <button type="submit" class="btn btn-primary">Create</button>
@@ -110,4 +112,21 @@ if ( window.history.replaceState ) {
         </div>
     </div>
 
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        $('#ingredient-select').select2();
+    });
+
+    // Basic:
+    // 1. Create new page and route /shop
+    // 2. The shop page display pizza as a grid (3 columns). Each column show pizza name, image, and 'Add to cart' button.
+    // 3. Add price column to ingredients.
+
+    // Extra:
+    // 1. Design data tables for storing cart, cart items, order, order items
+    // 2. Create cart page with checkout button. After checkout the cart should be created as an order
+</script>
 @endsection

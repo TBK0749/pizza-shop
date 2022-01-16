@@ -42,7 +42,7 @@
         </div>
 
     <hr>
-        <form method="POST" action="/ingredients/{{$ingredient->id}}">
+        <form method="POST" action="/admin/ingredients/{{$ingredient->id}}">
 
             @csrf
             @method('DELETE')

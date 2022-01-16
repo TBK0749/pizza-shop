@@ -46,7 +46,7 @@
                                 <td>{{ $ingredient->created_at }}</td>
                                 <td>{{ $ingredient->updated_at }}</td>
                                 <td>
-                                    <form method="POST" action="/ingredients/{{$ingredient->id}}">
+                                    <form method="POST" action="/admin/ingredients/{{$ingredient->id}}">
                                         @csrf
                                         @method('DELETE')
                                         <a class="btn btn-primary btn-sm" href="{{ route('ingredients.show', $ingredient->id) }}">View</a>

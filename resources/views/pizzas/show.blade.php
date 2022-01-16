@@ -37,13 +37,13 @@ if ( window.history.replaceState ) {
                         <li><b>Update at:</b> {{ $pizza->updated_at }}</li>
 
                         <li><b>Ingredients:</b>
-                        @empty($pizza->ingredients)
+                        @if($pizza->ingredients->count() == 0)
                             <p>
                                 Pizza don't have ingredients!!
                             </p>
                         @else
                             {{  $pizza->ingredients->pluck('name')->implode(', ') }}
-                        @endempty
+                        @endif
                         </li>
                     </ul>
                 </div>
@@ -55,14 +55,14 @@ if ( window.history.replaceState ) {
                     <h4>Pizza image<h4>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    <img src="{{asset($pizza->pizza_image)}}" alt="" width="500px" height="500px">
+                    <img src="{{asset($pizza->image)}}" alt="" width="500px" height="500px">
                 </div>
             </div>
         </div>
     </div>
 
 <hr>
-    <form method="POST" action="/pizzas/{{$pizza->id}}">
+    <form method="POST" action="/admin/pizzas/{{$pizza->id}}">
 
         @csrf
         @method('DELETE')

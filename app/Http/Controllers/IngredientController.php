@@ -124,16 +124,6 @@ class IngredientController extends Controller
     public function destroy(Ingredient $ingredient)
     {
         $ingredient->delete();
-        return redirect('/ingredients');
-    }
-
-    public function search(Request $request)
-    {
-        $search = $request->get('search');
-        // TODO: Use Eloquent
-        $ingredients = DB::table('ingredients')
-            ->where('name', 'like', '%' . $search . '%')
-            ->paginate(5);
-        return view('ingredients.index', ['ingredients' => $ingredients]);
+        return redirect()->route('ingredients.index')->with('success', 'Successfully deleted a ingredient.');
     }
 }

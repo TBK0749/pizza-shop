@@ -37,15 +37,14 @@ if ( window.history.replaceState ) {
                     </tr>
                 </thead>
                 <tbody>
-                    @php($i=1)
                     @foreach ($pizzas as $row)
                         <tr>
-                            <th scope="row">{{ $i++ }}</th>
+                            <th scope="row">{{ $loop->index + 1 }}</th>
                             <td><a href="{{ route('pizzas.show', $row->id)}}">{{ $row->name }}</a></td>
                             <td>{{ $row->created_at }}</td>
                             <td>{{ $row->updated_at }}</td>
                             <td>
-                                <form method="POST" action="/pizzas/{{$row->id}}">
+                                <form method="POST" action="/admin/pizzas/{{$row->id}}">
                                     @csrf
                                     @method('DELETE')
                                     <a class="btn btn-primary btn-sm" href="{{ route('pizzas.show', $row->id) }}">View</a>
@@ -64,7 +63,7 @@ if ( window.history.replaceState ) {
                     <h4><b>Pizza editing form</b></h4>
                 </div>
                 <div class="card-body ">
-                    <form action="/pizzas/{{$pizza->id}}" method="POST" enctype="multipart/form-data">
+                    <form action="/admin/pizzas/{{$pizza->id}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                             <div class="form-group mb-2">
@@ -77,28 +76,31 @@ if ( window.history.replaceState ) {
                             </div>
                         @enderror
                             <div class="form-group mb-2">
-                                <label for="pizza_image"><b>Pizza image</b></label>
-                                <input type="file" name="pizza_image" class="form-control" >
+                                <label for="image"><b>Pizza image</b></label>
+                                <input type="file" name="image" class="form-control" >
                             </div>
-                        @error('pizza_image')
+                        @error('image')
                             <div >
                                 <font color="red">{{$message}}</font>
                             </div>
                         @enderror
-                            <table>
-                                <b>Ingredients for pizza</b>
-                                @foreach($ingredients as $ingredient)
-                                    <tr>
-                                        <td><input {{ $ingredient->value ? 'checked' : null }} data-id="{{ $ingredient->id }}" name="ingredients[{{ $ingredient->id }}]" type="checkbox" class="ingredient-enable"></td>
-                                        <td>{{ $ingredient->name }}</td>
-                                    </tr>
-                                @endforeach
-                            </table>
+                        <div>
+                            <b>Ingredients for pizza</b>
+                        </div>
+                        <select id="ingredient-select" name="ingredients[]" multiple="multiple" class="form-control">
+                            @foreach($ingredients as $ingredient)
+                                <option value="{{ $ingredient->id }}"> {{ $ingredient->name  }}</option>
+                            @endforeach
+                        </select>
                         @error('ingredients')
                             <div >
                                 <font color="red">{{$message}}</font>
                             </div>
                         @enderror
+                            <div class="form-group mb-2">
+                                <label for="price"><b>Price</b></label>
+                                <input type="number" name="price" class="form-control" >
+                            </div>
                         <hr>
                             <div class="d-flex justify-content-between">
                                 <button type="submit" class="btn btn-primary">Confirm</button>
@@ -111,4 +113,12 @@ if ( window.history.replaceState ) {
     </div>
 
 
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        $('#ingredient-select').select2();
+    });
+</script>
 @endsection

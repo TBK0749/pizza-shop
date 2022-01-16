@@ -19,7 +19,7 @@ if ( window.history.replaceState ) {
         </div>
         <div class="col-md-1 align-self-end">
             <div class="card ">
-                <a class=" btn btn-outline-success " href="/pizzas/create" >Create</a>
+                <a class=" btn btn-outline-success " href="/admin/pizzas/create" >Create</a>
             </div>
         </div>
         <div class="col-md-4"></div>
@@ -53,7 +53,7 @@ if ( window.history.replaceState ) {
                                 <td>{{ $pizza->created_at }}</td>
                                 <td>{{ $pizza->updated_at }}</td>
                                 <td>
-                                    <form method="POST" action="/pizzas/{{$pizza->id}}">
+                                    <form method="POST" action="/admin/pizzas/{{$pizza->id}}">
                                         @csrf
                                         @method('DELETE')
                                         <a class="btn btn-primary btn-sm" href="{{ route('pizzas.show', $pizza->id) }}">View</a>

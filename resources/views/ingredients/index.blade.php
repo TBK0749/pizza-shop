@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-1 align-self-end">
                 <div class="card ">
-                    <a class=" btn btn-outline-success " href="/ingredients/create" >Create</a>
+                    <a class=" btn btn-outline-success " href="/admin/ingredients/create" >Create</a>
                 </div>
             </div>
             <div class="col-md-4"></div>
@@ -55,7 +55,7 @@
                                     <td>{{ $ingredient->created_at }}</td>
                                     <td>{{ $ingredient->updated_at }}</td>
                                     <td>
-                                        <form method="POST" action="/ingredients/{{$ingredient->id}}">
+                                        <form method="POST" action="/admin/ingredients/{{$ingredient->id}}">
                                             @csrf
                                             @method('DELETE')
                                             <a class="btn btn-primary btn-sm" href="{{ route('ingredients.show', $ingredient->id) }}">View</a>

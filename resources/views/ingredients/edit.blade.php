@@ -46,7 +46,7 @@
                                 <td>{{ $row->created_at }}</td>
                                 <td>{{ $row->updated_at }}</td>
                                 <td>
-                                    <form method="POST" action="/ingredients/{{$row->id}}">
+                                    <form method="POST" action="/admin/ingredients/{{$row->id}}">
                                         @csrf
                                         @method('DELETE')
                                         <a class="btn btn-primary btn-sm" href="{{ route('ingredients.show', $row->id) }}">View</a>
@@ -65,7 +65,7 @@
                         <h4><b>ingredient editing form</b></h4>
                     </div>
                     <div class="card-body ">
-                        <form action="/ingredients/{{$ingredient->id}}" method="POST">
+                        <form action="/admin/ingredients/{{$ingredient->id}}" method="POST">
                             @csrf
                             @method('PUT')
                                 <div class="form-group mb-2">
