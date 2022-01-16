@@ -72,7 +72,7 @@ class PizzaController extends Controller
         $full_path = $upload_location . $img_name;
         $image->move($upload_location, $img_name);
 
-        $ingredientIds = ($data['ingredients']);
+        $ingredientIds = $data['ingredients'];
 
         $pizza = new Pizza;
         $pizza->name = $data['name'];
@@ -168,7 +168,7 @@ class PizzaController extends Controller
         $pizza->deleteImage();
         $image->move($upload_location, $img_name);
 
-        $ingredientId = array_keys($data['ingredients']);
+        $ingredientId = $data['ingredients'];
 
         $data['image'] = $full_path;
         $pizza->update($data);
