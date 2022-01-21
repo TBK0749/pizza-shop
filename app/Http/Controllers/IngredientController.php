@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreIngredientRequest;
+use App\Http\Requests\UpdateIngredientRequest;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -39,21 +41,10 @@ class IngredientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreIngredientRequest $request)
     {
         // TODO: Move to Request class
-        $data = $request->validate(
-            [
-                'name' => 'required|unique:ingredients|max:225',
-                'price' => 'required',
-            ],
-            [
-                'name.required' => "Please enter a new ingredient name.",
-                'name.unique' => "You are entering the same ingredient name as the existing one.",
-                'name.max' => "You are entering a ingredient name exceeding 225 characters.",
-                'price.required' => "Put price."
-            ]
-        );
+        $data = $request->validated();
 
         Ingredient::create($data);
 
@@ -94,22 +85,10 @@ class IngredientController extends Controller
      * @param  \App\Models\Ingredient  $ingredient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateIngredientRequest $request, Ingredient $ingredient)
     {
-        $data = $request->validate(
-            [
-                'name' => 'required|unique:ingredients|max:225',
-                'price' => 'required',
-            ],
-            [
-                'name.required' => "Please enter a new ingredient name.",
-                'name.unique' => "You are entering the same ingredient name as the existing one.",
-                'name.max' => "You are entering a ingredient name exceeding 225 characters.",
-                'price.required' => "Put price."
-            ]
-        );
+        $data = $request->validated();
 
-        $ingredient = Ingredient::find($id);
         $ingredient->update($data);
 
         return redirect()->back()->with('success', "Successfully edited a ingredient.");

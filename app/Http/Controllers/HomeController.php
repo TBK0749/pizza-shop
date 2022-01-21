@@ -14,13 +14,10 @@ class HomeController extends Controller
         ]);
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function adminHome()
     {
-        return view('home.adminHome');
+        return view('home.adminHome', [
+            'pizzas' => Pizza::all(),
+        ]);
     }
 }

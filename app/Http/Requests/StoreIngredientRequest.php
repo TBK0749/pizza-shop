@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePizzaRequest extends FormRequest
+class StoreIngredientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class StorePizzaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:pizzas|max:255',
-            'ingredients' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg',
+            'name' => 'required|unique:ingredients|max:225',
             'price' => 'required',
         ];
     }
@@ -39,11 +37,9 @@ class StorePizzaRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => "Please enter a new pizza name.",
-            'name.unique' => "You are entering the same pizza name as the existing one.",
-            'name.max' => "You are entering a pizza name exceeding 225 characters.",
-            'ingredients.required' => "Please select ingredients.",
-            'image.required' => "Please add an illustration.",
+            'name.required' => "Please enter a new ingredient name.",
+            'name.unique' => "You are entering the same ingredient name as the existing one.",
+            'name.max' => "You are entering a ingredient name exceeding 225 characters.",
             'price.required' => "Please specify price.",
         ];
     }

@@ -51,16 +51,6 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // if (auth()->attempt(array('email' => Auth::user($user)->email, 'password' => Auth::user($user)->password))) {
-        //     if (Auth::user($user)->is_admin == 1) {
-        //         return redirect()->route('admin.home');
-        //     } else {
-        //         return redirect()->route('home.index');
-        //     }
-        // } else {
-        //     return redirect()->route('login.show')->with('error', 'Email-address and Password are wrong.');
-        // }
-
         if (Auth::user($user)->is_admin == 1) {
             return redirect()->route('admin.home');
         } else {

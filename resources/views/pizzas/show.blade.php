@@ -27,12 +27,13 @@ if ( window.history.replaceState ) {
     <div class="row">
         <div class='col-4'>
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-center">
                     <h4>Details<h4>
                 </div>
                 <div class="card-body">
                     <ul class="lead">
                         <li><b>Name:</b> {{ $pizza->name }}</li>
+                        <li><b>Price:</b> {{ $pizza->price }}</li>
                         <li><b>Create at:</b> {{ $pizza->created_at }}</li>
                         <li><b>Update at:</b> {{ $pizza->updated_at }}</li>
 
@@ -51,7 +52,7 @@ if ( window.history.replaceState ) {
         </div>
         <div class="col">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-center">
                     <h4>Pizza image<h4>
                 </div>
                 <div class="card-body d-flex justify-content-center">

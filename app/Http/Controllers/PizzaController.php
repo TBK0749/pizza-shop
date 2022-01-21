@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePizzaRequest;
+use App\Http\Requests\UpdatePizzaRequest;
+use App\Models\Cart;
 use App\Models\Pizza;
 use App\Models\Ingredient;
 use App\Models\IngredientPizza;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PizzaController extends Controller
 {
@@ -58,33 +62,34 @@ class PizzaController extends Controller
         $image = $request->file('image');
 
         //Generate ชื่อภาพ
-        $name_gen = hexdec(uniqid());
-        // $name_gen = Str::random(10);
+        // $nameGen = hexdec(uniqid());
+        $nameGen = Str::random(10);
 
         //ดึงนาสสกุลไฟล์ภาพ
-        $img_ext = strtolower($image->getClientOriginalExtension());
+        $imgExt = strtolower($image->getClientOriginalExtension());
 
         //รวมชื่อใหม่และนามสกุล
-        $img_name = $name_gen . '.' . $img_ext;
+        $imgName = $nameGen . '.' . $imgExt;
 
         //อัพโหลดและบันทึกข้อมูล
-        $upload_location = 'image/pizzas/';
-        $full_path = $upload_location . $img_name;
-        $image->move($upload_location, $img_name);
+        $uploadLocation = 'image/pizzas/';
+        $fullPath = $uploadLocation . $imgName;
+        $image->move($uploadLocation, $imgName);
 
         $ingredientIds = $data['ingredients'];
 
-        $pizza = new Pizza;
-        $pizza->name = $data['name'];
-        $pizza->price = $data['price'];
+        // $pizza = new Pizza;
+        // $pizza->name = $data['name'];
+        // $pizza->price = $data['price'];
         // TODO: ชื่อ column ไม่ต้องใส่ชื่อ model ซ้ำ
-        $pizza->image = $full_path;
-        $pizza->save();
+        // $pizza->image = $fullPath;
+        // $pizza->save();
 
-        // $pizza = Pizza::create([
-        //     'name' => $data['name'],
-        //     'image' => $full_path,
-        // ]);
+        $pizza = Pizza::create([
+            'name' => $data['name'],
+            'price' => $data['price'],
+            'image' => $fullPath,
+        ]);
 
         $pizza->ingredients()->sync($ingredientIds);
 
@@ -140,37 +145,24 @@ class PizzaController extends Controller
      * @param  \App\Models\Pizza  $pizza
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pizza $pizza)
+    public function update(UpdatePizzaRequest $request, Pizza $pizza)
     {
         // TODO: Move to Request Class
-        $data = $request->validate(
-            [
-                'name' => 'required|unique:pizzas|max:255',
-                'ingredients' => 'required',
-                'image' => 'required|mimes:png,jpg,jpeg'
-            ],
-            [
-                'name.required' => "Please enter a new pizza name.",
-                'name.unique' => "You are entering the same pizza name as the existing one.",
-                'name.max' => "You are entering a pizza name exceeding 225 characters.",
-                'ingredients.required' => "Please select ingredients.",
-                'image.required' => "Please add an illustration."
-            ]
-        );
+        $data = $request->validated();
 
         $image = $request->file('image');
-        $name_gen = hexdec(uniqid());
-        $img_ext = strtolower($image->getClientOriginalExtension());
-        $img_name = $name_gen . '.' . $img_ext;
-        $upload_location = 'image/pizzas/';
-        $full_path = $upload_location . $img_name;
+        $nameGen = hexdec(uniqid());
+        $imgExt = strtolower($image->getClientOriginalExtension());
+        $imgName = $nameGen . '.' . $imgExt;
+        $uploadLocation = 'image/pizzas/';
+        $fullPath = $uploadLocation . $imgName;
 
         $pizza->deleteImage();
-        $image->move($upload_location, $img_name);
+        $image->move($uploadLocation, $imgName);
 
         $ingredientId = $data['ingredients'];
 
-        $data['image'] = $full_path;
+        $data['image'] = $fullPath;
         $pizza->update($data);
         $pizza->ingredients()->sync($ingredientId);
 
@@ -191,11 +183,17 @@ class PizzaController extends Controller
         return redirect()->route('pizzas.index')->with('success', 'Successfully deleted a pizza.');
     }
 
-    // public function search(Request $request)
-    // {
-    //     $pizzas = Pizza::where('name', 'like', '%' . $request->get('search') . '%')
-    //         ->paginate(5);
+    public function addToCart(Request $req)
+    {
+        if (Auth::user()) {
+            $cart = new Cart;
+            $cart->user_id = Auth::user()->id;
+            $cart->pizza_id = $req->pizza_id;
+            $cart->save();
 
-    //     return view('pizzas.index', ['pizzas' => $pizzas]);
-    // }
+            return redirect(route('home.index'));
+        } else {
+            return redirect(route('login.show'));
+        }
+    }
 }

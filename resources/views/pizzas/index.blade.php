@@ -40,6 +40,7 @@ if ( window.history.replaceState ) {
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Price</th>
                             <th scope="col">Create_at</th>
                             <th scope="col">Update_at</th>
                             <th scope="col">Actions</th>
@@ -50,6 +51,7 @@ if ( window.history.replaceState ) {
                             <tr>
                                 <th scope="row">{{ $loop->index + 1 }}</th>
                                 <td><a href="{{ route('pizzas.show', $pizza->id)}}">{{ $pizza->name }}</a></td>
+                                <td>{{ $pizza->price }}</td>
                                 <td>{{ $pizza->created_at }}</td>
                                 <td>{{ $pizza->updated_at }}</td>
                                 <td>

@@ -31,6 +31,7 @@ if ( window.history.replaceState ) {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Price</th>
                         <th scope="col">Create_at</th>
                         <th scope="col">Update_at</th>
                         <th scope="col">Actions</th>
@@ -40,7 +41,8 @@ if ( window.history.replaceState ) {
                     @foreach ($pizzas as $pizza)
                         <tr>
                             <th scope="row">{{ $loop->index + 1 }}</th>
-                            <td><a href="{{ route('pizzas.show', $pizza->id)}}">{{ $pizza->name }}</a></td>
+                            <td><a href="{{ route('pizzas.show', $pizza->id) }}">{{ $pizza->name }}</a></td>
+                            <td>{{ $pizza->price }}</td>
                             <td>{{ $pizza->created_at }}</td>
                             <td>{{ $pizza->updated_at }}</td>
                             <td>
@@ -101,6 +103,11 @@ if ( window.history.replaceState ) {
                                 <label for="price"><b>Price</b></label>
                                 <input type="number" name="price" class="form-control" >
                             </div>
+                        @error('price')
+                            <div >
+                                <font color="red">{{$message}}</font>
+                            </div>
+                        @enderror
                         <hr>
                             <div class="d-flex justify-content-between">
                                 <button type="submit" class="btn btn-primary">Create</button>

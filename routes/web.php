@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
+use App\Models\Pizza;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,8 @@ Route::resource('/admin/ingredients', IngredientController::class);
 // Route::get('/search', [IngredientController::class, 'search']);
 // Route::get('/search', [SearchController::class, 'index']);
 
+Route::post('/add_to_cart', [PizzaController::class, 'addToCart'])->name('pizza.addToCart');
+
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     /**
      * Home Routes
@@ -72,4 +75,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
          */
         Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
     });
+});
+
+Route::get('/test', function () {
+    return view('test', ['pizzas' => Pizza::all()]);
 });
