@@ -15,9 +15,9 @@ class LogoutController extends Controller
      */
     public function perform()
     {
-        Session::flush();
+        // Session::flush(); // Delete Everything in the session
 
-        Auth::logout();
+        Auth::logout(); // Delete only log in session
 
         return redirect()->route('home.index');
     }

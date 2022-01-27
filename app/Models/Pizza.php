@@ -13,7 +13,7 @@ class Pizza extends Model
 {
     use HasFactory;
 
-    // protected $table = 'order_p';
+    protected $table = 'pizzas';
     protected $fillable = [
         'name',
         'price',

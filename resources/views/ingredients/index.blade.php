@@ -46,10 +46,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php($i=1)
                             @foreach ($ingredients as $ingredient)
                                 <tr>
-                                    <th scope="row">{{ $i++ }}</th>
+                                    <th scope="row">{{ $loop->index + 1 }}</th>
                                     <td><a href="{{ route('ingredients.show', $ingredient->id)}}">{{ $ingredient->name }}</a></td>
                                     <td>{{ $ingredient->price }}</td>
                                     <td>{{ $ingredient->created_at }}</td>

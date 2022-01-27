@@ -37,10 +37,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php($i=1)
                         @foreach ($ingredients as $row)
                             <tr>
-                                <th scope="row">{{ $i++ }}</th>
+                                <th scope="row">{{ $loop->index + 1 }}</th>
                                 <td><a href="{{ route('ingredients.show', $row->id)}}">{{ $row->name }}</a></td>
                                 <td>{{ $row->price }}</td>
                                 <td>{{ $row->created_at }}</td>
@@ -79,7 +78,7 @@
                             @enderror
                                 <div class="form-group mb-2">
                                     <label for="price"><b>Price</b></label>
-                                    <input type="number" name="price" class="form-control" value="{{ $ingredient->price }}">
+                                    <input type="number" name="price" class="form-control" value="{{ $ingredient->price }}" min="1">
                                 </div>
                             @error('price')
                                 <div >

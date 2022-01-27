@@ -44,7 +44,9 @@ class LoginRequest extends FormRequest
         // we have to check if user has entered one or another
         $username = $this->get('username');
 
-        if ($this->isEmail($username)) {
+        // Doc: https://www.php.net/manual/en/function.filter-var.php
+        // Filters: https://www.php.net/manual/en/filter.filters.validate.php
+        if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
             return [
                 'email' => $username,
                 'password' => $this->get('password')

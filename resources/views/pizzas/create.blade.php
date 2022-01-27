@@ -101,7 +101,7 @@ if ( window.history.replaceState ) {
                         @enderror
                             <div class="form-group mb-2">
                                 <label for="price"><b>Price</b></label>
-                                <input type="number" name="price" class="form-control" >
+                                <input type="number" name="price" class="form-control" min="1">
                             </div>
                         @error('price')
                             <div >

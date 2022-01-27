@@ -29,10 +29,11 @@ class LoginController extends Controller
     {
         $credentials = $request->getCredentials();
 
-        if (!Auth::validate($credentials)) :
-            return redirect()->to('login')
-                ->withErrors(trans('auth.failed'));
-        endif;
+        if (!Auth::validate($credentials)) {
+            return redirect()
+                ->to('login')
+                ->withErrors('This username or password does not exist.');
+        }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
@@ -51,10 +52,10 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if (Auth::user($user)->is_admin == 1) {
-            return redirect()->route('admin.home');
-        } else {
-            return redirect()->route('home.index');
-        }
+        $destination = Auth::user($user)->is_admin == 1
+            ? 'admin.home'
+            : 'home.index';
+
+        return redirect()->route($destination);
     }
 }

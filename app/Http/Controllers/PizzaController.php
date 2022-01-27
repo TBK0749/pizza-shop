@@ -182,18 +182,4 @@ class PizzaController extends Controller
 
         return redirect()->route('pizzas.index')->with('success', 'Successfully deleted a pizza.');
     }
-
-    public function addToCart(Request $req)
-    {
-        if (Auth::user()) {
-            $cart = new Cart;
-            $cart->user_id = Auth::user()->id;
-            $cart->pizza_id = $req->pizza_id;
-            $cart->save();
-
-            return redirect(route('home.index'));
-        } else {
-            return redirect(route('login.show'));
-        }
-    }
 }

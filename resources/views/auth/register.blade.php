@@ -2,13 +2,13 @@
 
 @section('content')
     <form method="post" action="{{ route('register.perform') }}">
+        @csrf
 
-        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
         <img class="mb-1" src="{!! url('images/icons/icon-pizza-register.png') !!}" alt="" width="100" height="100">
 
         <h1 class="h3 mb-3 fw-normal pizza-font">Register</h1>
 
-        @include('layouts.partials.messages')
+        {{-- @include('layouts.partials.messages') --}}
 
         <div class="form-group form-floating mb-3">
             <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="name@example.com" autofocus>
