@@ -32,7 +32,7 @@ class LoginController extends Controller
         if (!Auth::validate($credentials)) {
             return redirect()
                 ->to('login')
-                ->withErrors('This username or password does not exist.');
+                ->withErrors('This username does not exist.');
         }
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);

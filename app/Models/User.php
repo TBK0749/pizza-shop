@@ -18,9 +18,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
         'username',
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'address_1',
+        'address_2',
+        'city',
+        'state',
+        'country',
+        'pin_code',
         'password',
         'is_admin',
     ];
@@ -58,5 +66,10 @@ class User extends Authenticatable
     public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function latestOrder()
+    {
+        return $this->hasOne(Order::class)->latestOfMany();
     }
 }

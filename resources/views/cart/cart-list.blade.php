@@ -6,9 +6,16 @@
 @endif
 @php $total = 0; @endphp
     <div class="container bg-white">
+        @if ($cartItems->count() == 0)
+            <div class="fs-2 d-flex justify-content-center">YOUR CART IS EMPTY</div>
+            <hr>
+            <div class="p-2 d-flex justify-content-end">
+                <a href="{{ route('home.index') }}" class="btn btn-primary d-flex align-items-center">Back</a>
+            </div>
+        @else
         <div class="row">
             <div class="col my-3 text-center">
-                <span class="fs-2">YOUR ORDER</span>
+                <span class="fs-2">YOUR CART</span>
                 <table class="table table-bordered my-2">
                     <thead>
                         <tr>
@@ -66,6 +73,7 @@
                 <a href="{{ route('checkout.index') }}" class="btn btn-success d-flex align-items-center">Proceed to Checkout</a>
             </div>
         </div>
+        @endif
     </div>
 @endsection
 

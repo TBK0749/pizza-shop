@@ -11,18 +11,18 @@ use function PHPSTORM_META\map;
 
 class CartController extends Controller
 {
-    public function addToCart(Request $req)
+    public function addToCart(Request $request)
     {
         if (Auth::check()) {
-            if (Cart::where('pizza_id', $req->pizza_id)->where('user_id', Auth::id())->exists()) {
-                $item = Cart::where('pizza_id', $req->pizza_id)->where('user_id', Auth::id())->first();
-                $newPizzaQty = $item->pizza_qty + $req->pizza_qty;
+            if (Cart::where('pizza_id', $request->pizza_id)->where('user_id', Auth::id())->exists()) {
+                $item = Cart::where('pizza_id', $request->pizza_id)->where('user_id', Auth::id())->first();
+                $newPizzaQty = $item->pizza_qty + $request->pizza_qty;
                 $item->update(['pizza_qty' => $newPizzaQty]);
             } else {
                 $newItem = Cart::create([
                     'user_id' => Auth::id(),
-                    'pizza_id' => $req->pizza_id,
-                    'pizza_qty' => $req->pizza_qty,
+                    'pizza_id' => $request->pizza_id,
+                    'pizza_qty' => $request->pizza_qty,
                 ]);
             }
 
@@ -93,9 +93,9 @@ class CartController extends Controller
         ]);
     }
 
-    public function deleteItem(Request $req)
+    public function deleteItem(Request $request)
     {
-        $pizza_id = $req->pizza_id;
+        $pizza_id = $request->pizza_id;
         if (Cart::where('pizza_id', $pizza_id)->where('user_id', Auth::id())->exists()) {
             $item = Cart::where('pizza_id', $pizza_id)->where('user_id', Auth::id())->first();
             $item->delete();
@@ -103,9 +103,9 @@ class CartController extends Controller
         }
     }
 
-    public function incrementQty(Request $req)
+    public function incrementQty(Request $request)
     {
-        $pizza_id = $req->pizza_id;
+        $pizza_id = $request->pizza_id;
         if (Cart::where('pizza_id', $pizza_id)->where('user_id', Auth::id())->exists()) {
             $item = Cart::where('pizza_id', $pizza_id)->where('user_id', Auth::id())->first();
             $newPizzaQty = $item->pizza_qty + 1;
@@ -114,9 +114,9 @@ class CartController extends Controller
         }
     }
 
-    public function decrementQty(Request $req)
+    public function decrementQty(Request $request)
     {
-        $pizza_id = $req->pizza_id;
+        $pizza_id = $request->pizza_id;
         if (Cart::where('pizza_id', $pizza_id)->where('user_id', Auth::id())->exists()) {
             $item = Cart::where('pizza_id', $pizza_id)->where('user_id', Auth::id())->first();
             $item->pizza_qty === 1 ?

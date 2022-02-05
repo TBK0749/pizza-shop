@@ -78,7 +78,7 @@
                             @enderror
                                 <div class="form-group mb-2">
                                     <label for="price"><b>Price</b></label>
-                                    <input type="number" name="price" class="form-control" min="1">
+                                    <input type="number" name="price" class="form-control" min="1" value="{{ old('price') }}">
                                 </div>
                             @error('price')
                                 <div >

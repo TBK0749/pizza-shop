@@ -79,7 +79,7 @@ if ( window.history.replaceState ) {
                         @enderror
                             <div class="form-group mb-2">
                                 <label for="image"><b>Pizza image</b></label>
-                                <input type="file" name="image" class="form-control" >
+                                <input type="file" name="image" class="form-control">
                             </div>
                         @error('image')
                             <div >
@@ -101,7 +101,7 @@ if ( window.history.replaceState ) {
                         @enderror
                             <div class="form-group mb-2">
                                 <label for="price"><b>Price</b></label>
-                                <input type="number" name="price" class="form-control" min="1">
+                                <input type="number" name="price" class="form-control" min="1" value="{{ old('price') }}">
                             </div>
                         @error('price')
                             <div >

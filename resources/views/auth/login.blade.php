@@ -1,9 +1,6 @@
 @extends('layouts.auth-master')
 
 @section('content')
-    @if(session("errors"))
-    <div class="alert alert-danger">{{session('errors')}}</div>
-    @endif
     <form method="post" action="{{ route('login.perform') }}">
         @csrf
 
@@ -29,21 +26,12 @@
             @endif
         </div>
 
+        @if(session("errors"))
+        <span class="text-danger">{{session('errors')}}</span>
+        @endif
+
         <button class="w-100 btn btn-lg btn-primary" id="liveToastBtn" type="submit">Login</button>
 
         @include('auth.partials.copy')
     </form>
-
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-        <div class="offcanvas-header">
-        <img class="mb-1" src="{!! url('images/icons/icon-pizza-menu.png') !!}"alt="" width="100" height="100">
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <h3 class="pizza-font fs-2">TheBakaPizza!!</h3>
-        <div class="offcanvas-body pizza-font">
-            <div class="my-2"><a href="{{route('home.index')}}" class="text-dark fs-4 ">Menu</a></div>
-            <div class="my-2"><a href="{{ route('login.perform') }}" class="text-dark fs-4">Login</a></div>
-            <div class="my-2"><a href="{{ route('register.perform') }}" class="text-dark fs-4">Sign-up</a></div>
-        </div>
-    </div>
 @endsection
