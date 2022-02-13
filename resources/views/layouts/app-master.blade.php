@@ -20,10 +20,6 @@
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    {{-- card --}}
-    {{-- <link href="{!! url('assets/css/app.css') !!}" rel="stylesheet"> --}}
-    {{-- <link href="{!! url('assets/css/card.css') !!}"rel="stylesheet"> --}}
-
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -64,6 +60,6 @@
   </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    @yield('script')
 </body>
 </html>

@@ -22,10 +22,6 @@
                 @csrf
                 <div>
                     <div class="row">
-                        <div class="col-md-12 my-3">
-                            <label for="autocomplete" class="fs-3">Your Place:</label>
-                            <input type="text" id="autocomplete" placeholder="Enter a place">
-                        </div>
                         <div class="col-md-5">
                             <input type="text" class="form-control" placeholder="lat" name="lat" id="lat">
                         </div>
@@ -41,8 +37,9 @@
 
                             function initMap() {
                                 const myLatlng = {lat: 8.746592470204606, lng: 99.87857421278036 };
+
                                 map = new google.maps.Map(document.getElementById("map"), {
-                                    zoom: 8,
+                                    zoom: 13,
                                     center: myLatlng,
                                 });
 

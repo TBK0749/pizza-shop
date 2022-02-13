@@ -11,6 +11,7 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
@@ -69,6 +70,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Order endpiont
     Route::resource('orders', OrderController::class);
+
+    //Location
+    Route::resource('locations', LocationController::class);
 });
 
 // Admin

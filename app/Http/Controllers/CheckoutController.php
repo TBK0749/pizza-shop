@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Location;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\User;
@@ -15,7 +16,9 @@ class CheckoutController extends Controller
     {
         $user = Auth::user();
         $cartItems = $user->carts;
-        return view('cart.checkout', compact('cartItems', 'user'));
+        $location = $user->locations;
+
+        return view('cart.checkout', compact('cartItems', 'user', 'location'));
     }
 
     public function placeOrder(Request $request)

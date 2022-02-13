@@ -56,6 +56,17 @@
                                     <label for="">Pin Code</label>
                                     <input type="text" class="form-control" placeholder="Enter Pin Code" name="pin_code" value="{{ $user->pin_code }}">
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        @if (!empty($location))
+                                            <a href="{{ route('locations.show', $location->id) }}" class="btn btn-primary input-group-text">Your Location</a>
+                                            <i class="bi bi-check-square fs-3 input-group-text" style="color: green"></i>
+                                        @else
+                                            <a href="{{ route('locations.index') }}" class="btn btn-primary input-group-text">Your Location</a>
+                                            <i class="bi bi-x-square fs-3 input-group-text" style="color: red"></i>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
