@@ -14,9 +14,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserController;
 use App\Models\Cart;
 use App\Models\Pizza;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use League\Flysystem\RootViolationException;
@@ -92,98 +94,15 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::resource('admin/ingredients', IngredientController::class);
 });
 
-// 1. User open website
-// 2. Request comes to route
-// 3. Route send request to controller method
-// 4. Controller send response (json, html)
-
-// Seperation of concern
-
-// Pizza endpiont
-// Route::get('/pizzas', [PizzasController::class, 'index'])->name('pizzas.index');
-// Route::get('/pizzas/create', [PizzasController::class, 'create'])->name('pizzas.create');
-// Route::get('/pizzas/{id}/edit', [PizzasController::class, 'edit'])->name('pizzas.edit');
-// Route::get('/pizzas/{id}', [PizzasController::class, 'show'])->name('pizzas.show');
-// Route::post('/pizzas', [PizzasController::class, 'store'])->name('pizzas.store');
-// Route::put('/pizzas/{id}', [PizzasController::class, 'update'])->name('pizzas.update');
-// Route::delete('/pizzas/{id}', [PizzasController::class, 'destroy'])->name('pizzas.destroy');
-
-// Route::get('/search', [PizzaController::class, 'search']);
-// Route::get('/search', [IngredientController::class, 'search']);
-// Route::get('/search', [SearchController::class, 'index']);
-
-// 2 routes
-// /abc/test1
-// /abc/test2
-
-// Route::get('/ooo/test1', function () {
-//     dd('test1');
-// });
-// Route::get('/ooo/test2', function () {
-//     dd('test2');
-// });
-
-// prefix: คำนำหน้า
-// suffix: คำตามหลัง
-
-// Route::group(['prefix' => '/admin'], function () {
-//     Route::get('/test1', function () {
-//         dd("I'm in test1");
-//     });
-//     Route::get('/test2', function () {
-//         dd("I'm in test2");
-//     });
-// });
-
-
-Route::get('/test', function () {
-    // app()->bind('students', function () {
-    // return [];
-    // });
-
-    // helper functions
-
-    // ResponseFactory
-    // dd(response());
-
-    // Facade -> บ่งบอกชื่อของ key ที่ถูก binding ไว้ใน service container
-
-    // Response Facade -> 'Illuminate\Contracts\Routing\ResponseFactory'
-    // app('Illuminate\Contracts\Routing\ResponseFactory')->json([])
-
-    // Illuminate\Auth\AuthServiceProvider
-
-    // dd(app('session'));
-    // $carts = Auth::user()->carts;
-    // $cartsItem = Cart::where('user_id', Auth::id())->with(['pizza'])->get();
-    // dd($cartsItem);
-
-    // 1 ก้อนข้อมูล มันผูกกับข้อมูลก้อนอื่นๆไหนอยู่บ้าง
-
-    // $carts = Cart::with(['pizza'])->get(['id', 'pizza_id']);
-
-    // $carts -> Collection
-    // $carts[0] -> Cart
-
-
-    // $cartItems = Cart::where('user_id', Auth::id())->get();
-
-    $cartItems = Auth::user()->carts;
-    // dd($cartItems);
-
-    // return Response::json([]);
-    // return Response::json([]);
-    // dd(app('students'));
-    // return redirect()->route('login.show');
-    // redirect() -> Redirector (route, to, home, etc.)
-    // redirect()->route
-    // OOP (Object oriented programming)
-    // dd(redirect()->to('/login'));
-    // dd(redirect()->route('login.show'));
-    // return new RedirectResponse('', '', '', '');
-    return view('test', compact('cartItems'));
+Route::get('test', function () {
+    return view('test.test-checkout');
 });
 
-Route::get('/map', function () {
-    return view('googlemaps.map2');
+Route::get('/clear-cache-all', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('routh:clear');
+    Artisan::call('view:clear');
+    Artisan::call('config:cache');
+
+    dd("Cache Clear All");
 });

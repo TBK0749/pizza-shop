@@ -28,7 +28,8 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         $user = User::create($request->validated());
-
+        $stripeCustomer = $user->createAsStripeCustomer();
+        $stripeCustomer->booted();
         auth()->login($user);
 
         return redirect()->route('home.index')->with('success', "Account successfully registered.");

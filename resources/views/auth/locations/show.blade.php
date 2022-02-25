@@ -163,7 +163,8 @@
                 </div>
             </div>
 
-            <div id="map" class="my-3" style="height: 78%"></div>
+            <!-- CSS Device Breakpoint -->
+            <div id="map" class="my-3" style="height: 500px"></div>
 
             <hr>
             <form action="{{ route('locations.update', $location->id) }}" method="POST">
